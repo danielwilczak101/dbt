@@ -1,5 +1,9 @@
 {% macro hidden_ref(table) %}
-    {{ return(
-        target.database ~ '.' ~ target.schema ~ '.' ~ table
-    ) }}
+    {%- if target.name == 'prod' or target.name == 'test' -%}
+        {{return (ref(table))}}
+    {%- else -%}
+        {{ return(
+            target.database ~ '.' ~ target.schema ~ '.' ~ table
+        ) }}
+    {%- endif -%}
 {% endmacro %}
